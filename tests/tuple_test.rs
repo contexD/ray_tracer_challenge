@@ -1,4 +1,5 @@
-use ray_tracer_challenge::tuples::Tuple;
+use ray_tracer_challenge::tuples::{Tuple, dot};
+
 
 #[test]
 fn it_creates_a_point() {
@@ -104,11 +105,11 @@ fn computing_the_magnitude_of_a_vector() {
     let v5 = Tuple::new_vector(-1.0, -2.0, -3.0);
     let value: f32 = 14.0;
 
-    assert_eq!(1.0, v1.magnitude());
-    assert_eq!(1.0, v2.magnitude());
-    assert_eq!(1.0, v3.magnitude());
-    assert_eq!(value.sqrt(), v4.magnitude());
-    assert_eq!(value.sqrt(), v5.magnitude());
+    assert_eq!(1.0, v1.magnitude().unwrap());
+    assert_eq!(1.0, v2.magnitude().unwrap());
+    assert_eq!(1.0, v3.magnitude().unwrap());
+    assert_eq!(value.sqrt(), v4.magnitude().unwrap());
+    assert_eq!(value.sqrt(), v5.magnitude().unwrap());
 }
 
 #[test]
@@ -118,14 +119,22 @@ fn normalizing_a_vector() {
     let value: f32 = 14.0;
     let m = value.sqrt();
 
-    assert_eq!(Tuple(1.0, 0.0, 0.0, 0.0), v1.normalize());
-    assert_eq!(Tuple(1.0 / m, 2.0 / m, 3.0 / m, 0.0), v2.normalize());
+    assert_eq!(Tuple(1.0, 0.0, 0.0, 0.0), v1.normalize().unwrap());
+    assert_eq!(Tuple(1.0 / m, 2.0 / m, 3.0 / m, 0.0), v2.normalize().unwrap());
 }
 
 #[test]
 fn the_magnitude_of_a_normalized_vector() {
     let v1 = Tuple::new_vector(1.0, 2.0, 3.0);
-    let diff = 1.0 - v1.normalize().magnitude();
+    let abs_diff = (1.0 - v1.normalize().unwrap().magnitude().unwrap()).abs();
 
-    assert_eq!(true, diff < f32::EPSILON);
+    assert_eq!(true, abs_diff < f32::EPSILON);
+}
+
+#[test]
+fn the_dot_product_of_two_vectors() {
+    let v1 = Tuple::new_vector(1.0, 2.0, 3.0);
+    let v2 = Tuple::new_vector(2.0, 3.0, 4.0);
+
+    assert_eq!(20.0, dot(&v1, &v2).unwrap());
 }

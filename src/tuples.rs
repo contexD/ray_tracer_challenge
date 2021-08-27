@@ -21,17 +21,21 @@ impl Tuple {
         self.3 == 0.0
     }
 
-    pub fn magnitude(&self) -> f32 {
+    pub fn magnitude(&self) -> Result<f32, &str> {
         let Tuple(x, y, z, w) = self;
 
-        (x.powi(2) + y.powi(2) + z.powi(2) + w.powi(2)).sqrt()
+        if *w == 1.0 {
+            return Err("Cannot calculate the magnitude of a point.");
+        }
+
+        Ok((x.powi(2) + y.powi(2) + z.powi(2) + w.powi(2)).sqrt())
     }
 
-    pub fn normalize(&self) -> Self {
+    pub fn normalize(&self) -> Result<Self, &str> {
         let Tuple(x, y, z, w) = self;
-        let magnitude = self.magnitude();
+        let magnitude = self.magnitude().unwrap();
 
-        Tuple(x / magnitude, y / magnitude, z / magnitude, w / magnitude)
+        Ok(Tuple(x / magnitude, y / magnitude, z / magnitude, w / magnitude))
     }
 }
 
@@ -94,6 +98,17 @@ impl Div<f32> for Tuple {
 
         Self(x / rhs, y / rhs, z / rhs, w / rhs)
     }
+}
+
+pub fn dot<'a>(v1: &'a Tuple, v2: &'a Tuple) -> Result<f32, &'a str> {
+    let &Tuple(a, b, c, d) = v1;
+    let &Tuple(x, y, z, w) = v2;
+
+    if d == 1.0 || w == 1.0 {
+        return Err("Both arguments must be vectors.");
+    }
+
+    Ok(a * x + b * y + c * z)
 }
 
 fn equal(x: &f32, y: &f32) -> bool {
