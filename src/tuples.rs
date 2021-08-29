@@ -1,118 +1,198 @@
-use super::EPSILON;
+use duplicate::duplicate;
 use std::ops::{Add, Div, Mul, Neg, Sub};
+use std::vec::Vec;
 
-#[derive(Debug, Copy, Clone)]
-pub struct Tuple(pub f32, pub f32, pub f32, pub f32);
+#[derive(Debug, Clone)]
+pub struct Tuple {
+    value: Vec<f32>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Point {
+    value: Vec<f32>,
+}
+
+#[derive(Debug, Clone)]
+pub struct Vector {
+    value: Vec<f32>,
+}
+
+pub trait Value {
+    fn value(&self) -> &Vec<f32>;
+}
 
 impl Tuple {
-    pub fn new_point(x: f32, y: f32, z: f32) -> Self {
-        Tuple(x, y, z, 1.0)
-    }
-
-    pub fn new_vector(x: f32, y: f32, z: f32) -> Self {
-        Tuple(x, y, z, 0.0)
-    }
-
-    pub fn is_point(&self) -> bool {
-        self.3 == 1.0
-    }
-
-    pub fn is_vector(&self) -> bool {
-        self.3 == 0.0
-    }
-
-    pub fn magnitude(&self) -> Result<f32, &str> {
-        let Tuple(x, y, z, w) = self;
-
-        if *w == 1.0 {
-            return Err("Cannot calculate the magnitude of a point.");
+    pub fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
+        Tuple {
+            value: vec![x, y, z, w],
         }
-
-        Ok((x.powi(2) + y.powi(2) + z.powi(2) + w.powi(2)).sqrt())
-    }
-
-    pub fn normalize(&self) -> Result<Self, &str> {
-        let Tuple(x, y, z, w) = self;
-        let magnitude = self.magnitude().unwrap();
-
-        Ok(Tuple(x / magnitude, y / magnitude, z / magnitude, w / magnitude))
     }
 }
 
-impl PartialEq for Tuple {
-    fn eq(&self, Tuple(x, y, z, w): &Self) -> bool {
-        let Tuple(a, b, c, d) = self;
-        equal(a, x) && equal(b, y) && equal(c, z) && equal(d, w)
+impl Point {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Point {
+            value: vec![x, y, z, 1.0],
+        }
+    }
+}
+
+impl Vector {
+    pub fn new(x: f32, y: f32, z: f32) -> Self {
+        Vector {
+            value: vec![x, y, z, 0.0],
+        }
+    }
+
+    pub fn magnitude(&self) -> f32 {
+        self.value.iter().map(|x| x.powi(2)).sum::<f32>().sqrt()
+    }
+
+    pub fn normalize(&self) -> Self {
+        let magnitude = self.magnitude();
+
+        Self {
+            value: self.value.iter().map(|x| x / magnitude).collect(),
+        }
+    }
+}
+
+pub fn dot(v1: &Vector, v2: &Vector) -> f32 {
+    v1.value()
+        .iter()
+        .zip(v2.value().iter())
+        .map(|(x, y)| x * y)
+        .sum::<f32>()
+}
+
+#[duplicate(
+   tuple_type;
+   [ Tuple ];
+   [ Point ];
+   [ Vector ];
+)]
+impl Value for tuple_type {
+    fn value(&self) -> &Vec<f32> {
+        &self.value
+    }
+}
+
+#[duplicate(
+   tuple_type;
+   [ Tuple ];
+   [ Point ];
+   [ Vector ];
+)]
+impl PartialEq for tuple_type {
+    fn eq(&self, other: &Self) -> bool {
+        let self_iter = self.value.iter();
+        let other_iter = other.value().iter();
+
+        let unequal_tuple = self_iter.zip(other_iter).find(|(x, y)| !equal(x, y));
+
+        match unequal_tuple {
+            None => true,
+            _ => false,
+        }
     }
 }
 
 impl Eq for Tuple {}
+impl Eq for Point {}
+impl Eq for Vector {}
 
-impl Add for Tuple {
-    type Output = Self;
+#[duplicate(
+   tuple_type other_type output_type;
+   [ Tuple ] [ Self ] [Self];
+   [ Tuple ] [ Point ] [ Tuple ];
+   [ Tuple ] [ Vector ] [ Tuple ];
+   [ Point ] [ Tuple ] [ Tuple ];
+   [ Point ] [ Vector ] [ Point ];
+   [ Vector ] [ Self ] [ Self ];
+   [ Vector ] [ Point ] [ Point ];
+   [ Vector ] [ Tuple ] [ Tuple ];
+)]
+impl Add<other_type> for tuple_type {
+    type Output = other_type;
 
-    fn add(self, other: Self) -> Self {
-        let Tuple(a, b, c, d) = self;
-        let Tuple(x, y, z, w) = other;
+    fn add(self, other: other_type) -> Self::Output {
+        let self_iter = self.value.iter();
+        let other_iter = other.value().iter();
 
-        Self(a + x, b + y, c + z, d + w)
+        Self::Output {
+            value: self_iter.zip(other_iter).map(|(&x, &y)| x + y).collect(),
+        }
     }
 }
 
-impl Sub for Tuple {
-    type Output = Self;
+#[duplicate(
+   tuple_type other_type output_type;
+   [ Point ] [ Self ] [ Vector ];
+   [ Point ] [ Vector ] [ Point ];
+   [ Vector ] [ Self ] [ Self ];
+)]
+impl Sub<other_type> for tuple_type {
+    type Output = other_type;
 
-    fn sub(self, other: Self) -> Self::Output {
-        let Tuple(a, b, c, d) = self;
-        let Tuple(x, y, z, w) = other;
+    fn sub(self, other: other_type) -> Self::Output {
+        let self_iter = self.value.iter();
+        let other_iter = other.value().iter();
 
-        Self(a - x, b - y, c - z, d - w)
+        Self::Output {
+            value: self_iter.zip(other_iter).map(|(&x, &y)| x - y).collect(),
+        }
     }
 }
 
-impl Neg for Tuple {
+#[duplicate(
+   tuple_type;
+   [ Tuple ];
+   [ Vector ];
+)]
+impl Neg for tuple_type {
     type Output = Self;
 
     fn neg(self) -> Self::Output {
-        let Tuple(x, y, z, w) = self;
-
-        Self(-x, -y, -z, -w)
+        Self::Output {
+            // multiply x by (-1.0); -x results in the last component
+            // being equal to -0.0
+            value: self.value.iter().map(|&x| x * (-1.0)).collect(),
+        }
     }
 }
 
-impl Mul<f32> for Tuple {
+#[duplicate(
+   tuple_type;
+   [ Tuple ];
+   [ Vector ];
+)]
+impl Mul<f32> for tuple_type {
     type Output = Self;
 
     fn mul(self, rhs: f32) -> Self::Output {
-        let Tuple(x, y, z, w) = self;
-
-        Self(x * rhs, y * rhs, z * rhs, w * rhs)
+        Self::Output {
+            value: self.value.iter().map(|&x| x * rhs).collect(),
+        }
     }
 }
 
-impl Div<f32> for Tuple {
+#[duplicate(
+   tuple_type;
+   [ Tuple ];
+   [ Vector ];
+)]
+impl Div<f32> for tuple_type {
     type Output = Self;
 
     fn div(self, rhs: f32) -> Self::Output {
-        let Tuple(x, y, z, w) = self;
-
-        Self(x / rhs, y / rhs, z / rhs, w / rhs)
+        Self::Output {
+            value: self.value.iter().map(|&x| x / rhs).collect(),
+        }
     }
-}
-
-pub fn dot<'a>(v1: &'a Tuple, v2: &'a Tuple) -> Result<f32, &'a str> {
-    let &Tuple(a, b, c, d) = v1;
-    let &Tuple(x, y, z, w) = v2;
-
-    if d == 1.0 || w == 1.0 {
-        return Err("Both arguments must be vectors.");
-    }
-
-    Ok(a * x + b * y + c * z)
 }
 
 fn equal(x: &f32, y: &f32) -> bool {
-    if (x - y).abs() < EPSILON {
+    if (x - y).abs() < f32::EPSILON {
         return true;
     }
     return false;
