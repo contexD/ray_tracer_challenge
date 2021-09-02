@@ -1,4 +1,4 @@
-use ray_tracer_challenge::tuples::{dot, Point, Tuple, Value, Vector};
+use ray_tracer_challenge::tuples::{cross, dot, Point, Tuple, Value, Vector};
 
 #[test]
 fn it_creates_a_point() {
@@ -262,4 +262,16 @@ fn the_dot_product_of_two_vectors() {
     let v2 = Vector::new(2.0, 3.0, 4.0);
 
     assert_eq!(20.0, dot(&v1, &v2));
+}
+
+#[test]
+fn the_cross_product_of_two_vectors() {
+    let v1 = Vector::new(1.0, 2.0, 3.0);
+    let v2 = Vector::new(2.0, 3.0, 4.0);
+
+    let result1 = vec![-1.0, 2.0, -1.0, 0.0];
+    let result2 = vec![1.0, -2.0, 1.0, 0.0];
+
+    assert_eq!(&result1, cross(&v1, &v2).value());
+    assert_eq!(&result2, cross(&v2, &v1).value());
 }
