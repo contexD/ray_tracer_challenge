@@ -24,7 +24,7 @@ pub trait Value {
 impl Tuple {
     pub fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
         Tuple {
-            value: vec![x, y, z, w]
+            value: vec![x, y, z, w],
         }
     }
 }
@@ -32,7 +32,7 @@ impl Tuple {
 impl Point {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Point {
-            value: vec![x, y, z, 1.0]
+            value: vec![x, y, z, 1.0],
         }
     }
 }
@@ -40,7 +40,7 @@ impl Point {
 impl Vector {
     pub fn new(x: f32, y: f32, z: f32) -> Self {
         Vector {
-            value: vec![x, y, z, 0.0]
+            value: vec![x, y, z, 0.0],
         }
     }
 
@@ -69,21 +69,19 @@ pub fn cross(v1: &Vector, v2: &Vector) -> Vector {
     let mut f1: Vec<f32> = v1.value().to_vec();
     let mut f2: Vec<f32> = v2.value().to_vec();
     let mut result: Vec<f32> = Vec::with_capacity(4);
-    
+
     f1.pop();
     f2.pop();
     f1.rotate_left(1);
     f2.rotate_right(1);
 
     for (index, _value) in f1.iter().enumerate() {
-         result.push(f1[index] * f2[index] - f1[(index + 1) % 3] * f2[(index + 2) % 3]);
+        result.push(f1[index] * f2[index] - f1[(index + 1) % 3] * f2[(index + 2) % 3]);
     }
 
     result.push(0.0);
 
-    Vector {
-        value: result
-    }
+    Vector { value: result }
 }
 
 #[duplicate(
