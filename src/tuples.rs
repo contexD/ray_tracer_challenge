@@ -132,7 +132,7 @@ impl Eq for Vector {}
    [ Vector ] [ Tuple ] [ Tuple ];
 )]
 impl Add<other_type> for tuple_type {
-    type Output = other_type;
+    type Output = output_type;
 
     fn add(self, other: other_type) -> Self::Output {
         let self_iter = self.value.iter();
@@ -151,7 +151,7 @@ impl Add<other_type> for tuple_type {
    [ Vector ] [ Self ] [ Self ];
 )]
 impl Sub<other_type> for tuple_type {
-    type Output = other_type;
+    type Output = output_type;
 
     fn sub(self, other: other_type) -> Self::Output {
         let self_iter = self.value.iter();
