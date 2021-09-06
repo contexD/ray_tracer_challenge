@@ -121,44 +121,60 @@ impl Eq for Point {}
 impl Eq for Vector {}
 
 #[duplicate(
-   tuple_type other_type output_type;
-   [ Tuple ] [ Self ] [Self];
-   [ Tuple ] [ Point ] [ Tuple ];
-   [ Tuple ] [ Vector ] [ Tuple ];
-   [ Point ] [ Tuple ] [ Tuple ];
-   [ Point ] [ Vector ] [ Point ];
-   [ Vector ] [ Self ] [ Self ];
-   [ Vector ] [ Point ] [ Point ];
-   [ Vector ] [ Tuple ] [ Tuple ];
+   Lhs Rhs Output_type;
+   #[
+   Lhs_nested Rhs_nested Output_nested;
+    [ Tuple ] [ Tuple ] [Tuple];
+    [ Tuple ] [ Point ] [ Tuple ];
+    [ Tuple ] [ Vector ] [ Tuple ];
+    [ Point ] [ Tuple ] [ Tuple ];
+    [ Point ] [ Vector ] [ Point ];
+    [ Vector ] [ Vector ] [ Vector ];
+    [ Vector ] [ Point ] [ Point ];
+    [ Vector ] [ Tuple ] [ Tuple ];
+   ][
+    [ Lhs_nested ] [ Rhs_nested ] [ Output_nested ];
+    [ Lhs_nested ] [ &Rhs_nested ] [ Output_nested ];
+    [ &Lhs_nested ] [ Rhs_nested ] [ Output_nested ];
+    [ &Lhs_nested ] [ &Rhs_nested ] [ Output_nested ];
+   ]
 )]
-impl Add<other_type> for tuple_type {
-    type Output = output_type;
+impl Add<Rhs> for Lhs {
+    type Output = Output_type;
 
-    fn add(self, other: other_type) -> Self::Output {
-        let self_iter = self.value.iter();
-        let other_iter = other.value().iter();
+    fn add(self, rhs: Rhs) -> Self::Output {
+        let lhs_iter = self.value.iter();
+        let rhs_iter = rhs.value().iter();
 
         Self::Output {
-            value: self_iter.zip(other_iter).map(|(&x, &y)| x + y).collect(),
+            value: lhs_iter.zip(rhs_iter).map(|(&x, &y)| x + y).collect(),
         }
     }
 }
 
 #[duplicate(
-   tuple_type other_type output_type;
-   [ Point ] [ Self ] [ Vector ];
+   Lhs Rhs Output_type;
+   #[ Lhs_inner Rhs_inner Output_inner;
+   [ Point ] [ Point ] [ Vector ];
    [ Point ] [ Vector ] [ Point ];
-   [ Vector ] [ Self ] [ Self ];
+   [ Vector ] [ Vector ] [ Vector ];
+   ]
+   [
+   [ Lhs_inner ] [ Rhs_inner ] [ Output_inner];
+   [ &Lhs_inner ] [ &Rhs_inner ] [ Output_inner];
+   [ Lhs_inner ] [ &Rhs_inner ] [ Output_inner];
+   [ &Lhs_inner ] [  Rhs_inner ] [ Output_inner];
+   ]
 )]
-impl Sub<other_type> for tuple_type {
-    type Output = output_type;
+impl Sub<Rhs> for Lhs {
+    type Output = Output_type;
 
-    fn sub(self, other: other_type) -> Self::Output {
-        let self_iter = self.value.iter();
-        let other_iter = other.value().iter();
+    fn sub(self, rhs: Rhs) -> Self::Output {
+        let lhs_iter = self.value.iter();
+        let rhs_iter = rhs.value().iter();
 
         Self::Output {
-            value: self_iter.zip(other_iter).map(|(&x, &y)| x - y).collect(),
+            value: lhs_iter.zip(rhs_iter).map(|(&x, &y)| x - y).collect(),
         }
     }
 }

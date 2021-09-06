@@ -39,10 +39,76 @@ fn it_adds_two_tuples() {
 }
 
 #[test]
+fn it_adds_two_tuple_refs() {
+    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let sum = &t1 + &t2;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_and_a_tuple_ref() {
+    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let sum = t1 + &t2;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_ref_and_a_tuple() {
+    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let sum = &t1 + t2;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
 fn it_adds_a_tuple_and_a_point() {
     let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
     let p = Point::new(-2.0, 3.0, 1.0);
     let sum = t + p;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_ref_and_a_point_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &t + &p;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_and_a_point_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = t + &p;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_ref_and_a_point() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &t + p;
 
     let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
 
@@ -61,10 +127,76 @@ fn it_adds_a_point_and_a_tuple() {
 }
 
 #[test]
+fn it_adds_a_point_ref_and_a_tuple_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &p + &t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_point_and_a_tuple_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = p + &t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_point_ref_and_a_tuple() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &p + t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
 fn it_adds_a_tuple_and_a_vector() {
     let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
     let v = Vector::new(-2.0, 3.0, 1.0);
     let sum = t + v;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_ref_and_a_vector_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &t + &v;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_and_a_vector_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = t + &v;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_tuple_ref_and_a_vector() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &t + v;
 
     let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
 
@@ -83,10 +215,76 @@ fn it_adds_a_vector_and_a_tuple() {
 }
 
 #[test]
+fn it_adds_a_vector_ref_and_a_tuple_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &v + &t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_and_a_tuple_ref() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = v + &t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_ref_and_a_tuple() {
+    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
+    let v = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &v + t;
+
+    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
 fn it_adds_two_vectors() {
     let v1 = Vector::new(3.0, -2.0, 5.0);
     let v2 = Vector::new(-2.0, 3.0, 1.0);
     let sum = v1 + v2;
+
+    let result = Vector::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_two_vectors_refs() {
+    let v1 = Vector::new(3.0, -2.0, 5.0);
+    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &v1 + &v2;
+
+    let result = Vector::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_and_a_vector_ref() {
+    let v1 = Vector::new(3.0, -2.0, 5.0);
+    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let sum = v1 + &v2;
+
+    let result = Vector::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_ref_and_a_vector() {
+    let v1 = Vector::new(3.0, -2.0, 5.0);
+    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let sum = &v1 + v2;
 
     let result = Vector::new(1.0, 1.0, 6.0);
 
@@ -105,10 +303,76 @@ fn it_adds_a_vector_and_a_point() {
 }
 
 #[test]
+fn it_adds_a_vector_ref_and_a_point_ref() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &v + &p;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_and_a_point_ref() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = v + &p;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_vector_ref_and_a_point() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &v + p;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
 fn it_adds_a_point_and_a_vector() {
     let v = Vector::new(3.0, -2.0, 5.0);
     let p = Point::new(-2.0, 3.0, 1.0);
     let sum = p + v;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_point_ref_and_a_vector_ref() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &p + &v;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_point_and_a_vector_ref() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = p + &v;
+
+    let result = Point::new(1.0, 1.0, 6.0);
+
+    assert_eq!(result, sum);
+}
+
+#[test]
+fn it_adds_a_point_ref_and_a_vector() {
+    let v = Vector::new(3.0, -2.0, 5.0);
+    let p = Point::new(-2.0, 3.0, 1.0);
+    let sum = &p + v;
 
     let result = Point::new(1.0, 1.0, 6.0);
 
@@ -126,6 +390,36 @@ fn subtracting_two_points() {
 }
 
 #[test]
+fn subtracting_two_point_refs() {
+    let p1 = Point::new(3.0, 2.0, 1.0);
+    let p2 = Point::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &p1 - &p2);
+}
+
+#[test]
+fn subtracting_a_point_and_a_point_ref() {
+    let p1 = Point::new(3.0, 2.0, 1.0);
+    let p2 = Point::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, p1 - &p2);
+}
+
+#[test]
+fn subtracting_a_point_ref_and_a_point() {
+    let p1 = Point::new(3.0, 2.0, 1.0);
+    let p2 = Point::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &p1 - p2);
+}
+
+#[test]
 fn subtracting_a_vector_from_a_point() {
     let p = Point::new(3.0, 2.0, 1.0);
     let v = Vector::new(5.0, 6.0, 7.0);
@@ -136,6 +430,36 @@ fn subtracting_a_vector_from_a_point() {
 }
 
 #[test]
+fn subtracting_a_vector_ref_from_a_point_ref() {
+    let p = Point::new(3.0, 2.0, 1.0);
+    let v = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Point::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &p - &v);
+}
+
+#[test]
+fn subtracting_a_vector_ref_from_a_point() {
+    let p = Point::new(3.0, 2.0, 1.0);
+    let v = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Point::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, p - &v);
+}
+
+#[test]
+fn subtracting_a_vector_from_a_point_ref() {
+    let p = Point::new(3.0, 2.0, 1.0);
+    let v = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Point::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &p - v);
+}
+
+#[test]
 fn subtracting_two_vectors() {
     let v1 = Vector::new(3.0, 2.0, 1.0);
     let v2 = Vector::new(5.0, 6.0, 7.0);
@@ -143,6 +467,36 @@ fn subtracting_two_vectors() {
     let result = Vector::new(-2.0, -4.0, -6.0);
 
     assert_eq!(result, v1 - v2);
+}
+
+#[test]
+fn subtracting_two_vectors_refs() {
+    let v1 = Vector::new(3.0, 2.0, 1.0);
+    let v2 = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &v1 - &v2);
+}
+
+#[test]
+fn subtracting_a_vector_ref_from_a_vector() {
+    let v1 = Vector::new(3.0, 2.0, 1.0);
+    let v2 = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, v1 - &v2);
+}
+
+#[test]
+fn subtracting_a_vector_from_a_vector_ref() {
+    let v1 = Vector::new(3.0, 2.0, 1.0);
+    let v2 = Vector::new(5.0, 6.0, 7.0);
+
+    let result = Vector::new(-2.0, -4.0, -6.0);
+
+    assert_eq!(result, &v1 - v2);
 }
 
 #[test]
