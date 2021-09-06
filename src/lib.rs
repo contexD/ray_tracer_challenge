@@ -1,5 +1,4 @@
-pub const EPSILON: f32 = 0.00001;
-
+pub mod projectile;
 pub mod tuples;
 
 #[cfg(test)]
