@@ -1,26 +1,33 @@
 use ray_tracer_challenge::tuples::{cross, dot, Point, Tuple, Value, Vector};
 
 #[test]
+fn it_creates_a_tuple() {
+    let p = Tuple::new(vec![1.0, 2.0, 3.0, 1.0]);
+    let val: Vec<f32> = vec![1.0, 2.0, 3.0, 1.0];
+    assert_eq!(&val, p.value());
+}
+
+#[test]
 fn it_creates_a_point() {
-    let p = Point::new(1.0, 2.0, 3.0);
+    let p = Point::new(vec![1.0, 2.0, 3.0]);
     let val: Vec<f32> = vec![1.0, 2.0, 3.0, 1.0];
     assert_eq!(&val, p.value());
 }
 
 #[test]
 fn it_creates_a_vector() {
-    let v = Vector::new(1.0, 2.0, 3.0);
+    let v = Vector::new(vec![1.0, 2.0, 3.0]);
     let val: Vec<f32> = vec![1.0, 2.0, 3.0, 0.0];
     assert_eq!(&val, v.value());
 }
 
 #[test]
 fn it_compares_two_tuples_for_equality() {
-    let p1 = Point::new(1.0, 2.0, 3.0);
-    let p2 = Point::new(1.00001, 2.0, 3.0);
-    let p3 = Point::new(1.0 - 1.0 * f32::EPSILON, 2.0, 3.0);
-    let v1 = Vector::new(1.0, 2.0, 3.0);
-    let v2 = Vector::new(1.0, 2.0, 3.0);
+    let p1 = Point::new(vec![1.0, 2.0, 3.0]);
+    let p2 = Point::new(vec![1.00001, 2.0, 3.0]);
+    let p3 = Point::new(vec![1.0 - 1.0 * f32::EPSILON, 2.0, 3.0]);
+    let v1 = Vector::new(vec![1.0, 2.0, 3.0]);
+    let v2 = Vector::new(vec![1.0, 2.0, 3.0]);
 
     assert_eq!(false, p1 == p2);
     assert_eq!(false, p1 == p3);
@@ -29,479 +36,479 @@ fn it_compares_two_tuples_for_equality() {
 
 #[test]
 fn it_adds_two_tuples() {
-    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let t1 = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let t2 = Tuple::new(vec![-2.0, 3.0, 1.0, 2.0]);
     let sum = t1 + t2;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 4.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_two_tuple_refs() {
-    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let t1 = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let t2 = Tuple::new(vec![-2.0, 3.0, 1.0, 2.0]);
     let sum = &t1 + &t2;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 4.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_and_a_tuple_ref() {
-    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let t1 = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let t2 = Tuple::new(vec![-2.0, 3.0, 1.0, 2.0]);
     let sum = t1 + &t2;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 4.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_ref_and_a_tuple() {
-    let t1 = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let t2 = Tuple::new(-2.0, 3.0, 1.0, 2.0);
+    let t1 = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let t2 = Tuple::new(vec![-2.0, 3.0, 1.0, 2.0]);
     let sum = &t1 + t2;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 4.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 4.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_and_a_point() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = t + p;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_ref_and_a_point_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &t + &p;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_and_a_point_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = t + &p;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_ref_and_a_point() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &t + p;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_and_a_tuple() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = p + t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_ref_and_a_tuple_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &p + &t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_and_a_tuple_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = p + &t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_ref_and_a_tuple() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &p + t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 3.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 3.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_and_a_vector() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = t + v;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_ref_and_a_vector_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &t + &v;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_and_a_vector_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = t + &v;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_tuple_ref_and_a_vector() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &t + v;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_and_a_tuple() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = v + t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_ref_and_a_tuple_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v + &t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_and_a_tuple_ref() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = v + &t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_ref_and_a_tuple() {
-    let t = Tuple::new(3.0, -2.0, 5.0, 2.0);
-    let v = Vector::new(-2.0, 3.0, 1.0);
+    let t = Tuple::new(vec![3.0, -2.0, 5.0, 2.0]);
+    let v = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v + t;
 
-    let result = Tuple::new(1.0, 1.0, 6.0, 2.0);
+    let result = Tuple::new(vec![1.0, 1.0, 6.0, 2.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_two_vectors() {
-    let v1 = Vector::new(3.0, -2.0, 5.0);
-    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let v1 = Vector::new(vec![3.0, -2.0, 5.0]);
+    let v2 = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = v1 + v2;
 
-    let result = Vector::new(1.0, 1.0, 6.0);
+    let result = Vector::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_two_vectors_refs() {
-    let v1 = Vector::new(3.0, -2.0, 5.0);
-    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let v1 = Vector::new(vec![3.0, -2.0, 5.0]);
+    let v2 = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v1 + &v2;
 
-    let result = Vector::new(1.0, 1.0, 6.0);
+    let result = Vector::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_and_a_vector_ref() {
-    let v1 = Vector::new(3.0, -2.0, 5.0);
-    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let v1 = Vector::new(vec![3.0, -2.0, 5.0]);
+    let v2 = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = v1 + &v2;
 
-    let result = Vector::new(1.0, 1.0, 6.0);
+    let result = Vector::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_ref_and_a_vector() {
-    let v1 = Vector::new(3.0, -2.0, 5.0);
-    let v2 = Vector::new(-2.0, 3.0, 1.0);
+    let v1 = Vector::new(vec![3.0, -2.0, 5.0]);
+    let v2 = Vector::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v1 + v2;
 
-    let result = Vector::new(1.0, 1.0, 6.0);
+    let result = Vector::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_and_a_point() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = v + p;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_ref_and_a_point_ref() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v + &p;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_and_a_point_ref() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = v + &p;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_vector_ref_and_a_point() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &v + p;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_and_a_vector() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = p + v;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_ref_and_a_vector_ref() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &p + &v;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_and_a_vector_ref() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = p + &v;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn it_adds_a_point_ref_and_a_vector() {
-    let v = Vector::new(3.0, -2.0, 5.0);
-    let p = Point::new(-2.0, 3.0, 1.0);
+    let v = Vector::new(vec![3.0, -2.0, 5.0]);
+    let p = Point::new(vec![-2.0, 3.0, 1.0]);
     let sum = &p + v;
 
-    let result = Point::new(1.0, 1.0, 6.0);
+    let result = Point::new(vec![1.0, 1.0, 6.0]);
 
     assert_eq!(result, sum);
 }
 
 #[test]
 fn subtracting_two_points() {
-    let p1 = Point::new(3.0, 2.0, 1.0);
-    let p2 = Point::new(5.0, 6.0, 7.0);
+    let p1 = Point::new(vec![3.0, 2.0, 1.0]);
+    let p2 = Point::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, p1 - p2);
 }
 
 #[test]
 fn subtracting_two_point_refs() {
-    let p1 = Point::new(3.0, 2.0, 1.0);
-    let p2 = Point::new(5.0, 6.0, 7.0);
+    let p1 = Point::new(vec![3.0, 2.0, 1.0]);
+    let p2 = Point::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &p1 - &p2);
 }
 
 #[test]
 fn subtracting_a_point_and_a_point_ref() {
-    let p1 = Point::new(3.0, 2.0, 1.0);
-    let p2 = Point::new(5.0, 6.0, 7.0);
+    let p1 = Point::new(vec![3.0, 2.0, 1.0]);
+    let p2 = Point::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, p1 - &p2);
 }
 
 #[test]
 fn subtracting_a_point_ref_and_a_point() {
-    let p1 = Point::new(3.0, 2.0, 1.0);
-    let p2 = Point::new(5.0, 6.0, 7.0);
+    let p1 = Point::new(vec![3.0, 2.0, 1.0]);
+    let p2 = Point::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &p1 - p2);
 }
 
 #[test]
 fn subtracting_a_vector_from_a_point() {
-    let p = Point::new(3.0, 2.0, 1.0);
-    let v = Vector::new(5.0, 6.0, 7.0);
+    let p = Point::new(vec![3.0, 2.0, 1.0]);
+    let v = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Point::new(-2.0, -4.0, -6.0);
+    let result = Point::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, p - v);
 }
 
 #[test]
 fn subtracting_a_vector_ref_from_a_point_ref() {
-    let p = Point::new(3.0, 2.0, 1.0);
-    let v = Vector::new(5.0, 6.0, 7.0);
+    let p = Point::new(vec![3.0, 2.0, 1.0]);
+    let v = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Point::new(-2.0, -4.0, -6.0);
+    let result = Point::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &p - &v);
 }
 
 #[test]
 fn subtracting_a_vector_ref_from_a_point() {
-    let p = Point::new(3.0, 2.0, 1.0);
-    let v = Vector::new(5.0, 6.0, 7.0);
+    let p = Point::new(vec![3.0, 2.0, 1.0]);
+    let v = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Point::new(-2.0, -4.0, -6.0);
+    let result = Point::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, p - &v);
 }
 
 #[test]
 fn subtracting_a_vector_from_a_point_ref() {
-    let p = Point::new(3.0, 2.0, 1.0);
-    let v = Vector::new(5.0, 6.0, 7.0);
+    let p = Point::new(vec![3.0, 2.0, 1.0]);
+    let v = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Point::new(-2.0, -4.0, -6.0);
+    let result = Point::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &p - v);
 }
 
 #[test]
 fn subtracting_two_vectors() {
-    let v1 = Vector::new(3.0, 2.0, 1.0);
-    let v2 = Vector::new(5.0, 6.0, 7.0);
+    let v1 = Vector::new(vec![3.0, 2.0, 1.0]);
+    let v2 = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, v1 - v2);
 }
 
 #[test]
 fn subtracting_two_vectors_refs() {
-    let v1 = Vector::new(3.0, 2.0, 1.0);
-    let v2 = Vector::new(5.0, 6.0, 7.0);
+    let v1 = Vector::new(vec![3.0, 2.0, 1.0]);
+    let v2 = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &v1 - &v2);
 }
 
 #[test]
 fn subtracting_a_vector_ref_from_a_vector() {
-    let v1 = Vector::new(3.0, 2.0, 1.0);
-    let v2 = Vector::new(5.0, 6.0, 7.0);
+    let v1 = Vector::new(vec![3.0, 2.0, 1.0]);
+    let v2 = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, v1 - &v2);
 }
 
 #[test]
 fn subtracting_a_vector_from_a_vector_ref() {
-    let v1 = Vector::new(3.0, 2.0, 1.0);
-    let v2 = Vector::new(5.0, 6.0, 7.0);
+    let v1 = Vector::new(vec![3.0, 2.0, 1.0]);
+    let v2 = Vector::new(vec![5.0, 6.0, 7.0]);
 
-    let result = Vector::new(-2.0, -4.0, -6.0);
+    let result = Vector::new(vec![-2.0, -4.0, -6.0]);
 
     assert_eq!(result, &v1 - v2);
 }
 
 #[test]
 fn negating_a_tuple() {
-    let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
+    let t = Tuple::new(vec![1.0, -2.0, 3.0, -4.0]);
 
     let result: Vec<f32> = vec![-1.0, 2.0, -3.0, 4.0];
 
@@ -510,7 +517,7 @@ fn negating_a_tuple() {
 
 #[test]
 fn negating_a_vector() {
-    let v = Vector::new(1.0, -2.0, 3.0);
+    let v = Vector::new(vec![1.0, -2.0, 3.0]);
 
     let result: Vec<f32> = vec![-1.0, 2.0, -3.0, 0.0];
 
@@ -519,7 +526,7 @@ fn negating_a_vector() {
 
 #[test]
 fn mulitplying_a_tuple_by_a_scalar() {
-    let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
+    let t = Tuple::new(vec![1.0, -2.0, 3.0, -4.0]);
 
     let result: Vec<f32> = vec![3.5, -7.0, 10.5, -14.0];
 
@@ -528,7 +535,7 @@ fn mulitplying_a_tuple_by_a_scalar() {
 
 #[test]
 fn mulitplying_a_vector_by_a_scalar() {
-    let v = Vector::new(1.0, -2.0, 3.0);
+    let v = Vector::new(vec![1.0, -2.0, 3.0]);
 
     let result: Vec<f32> = vec![3.5, -7.0, 10.5, 0.0];
 
@@ -537,7 +544,7 @@ fn mulitplying_a_vector_by_a_scalar() {
 
 #[test]
 fn mulitplying_a_tuple_by_a_fraction() {
-    let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
+    let t = Tuple::new(vec![1.0, -2.0, 3.0, -4.0]);
 
     let result: Vec<f32> = vec![0.5, -1.0, 1.5, -2.0];
 
@@ -546,7 +553,7 @@ fn mulitplying_a_tuple_by_a_fraction() {
 
 #[test]
 fn mulitplying_a_vector_by_a_fraction() {
-    let v = Vector::new(1.0, -2.0, 3.0);
+    let v = Vector::new(vec![1.0, -2.0, 3.0]);
 
     let result: Vec<f32> = vec![0.5, -1.0, 1.5, 0.0];
 
@@ -555,7 +562,7 @@ fn mulitplying_a_vector_by_a_fraction() {
 
 #[test]
 fn dividing_a_tuple_by_a_scalar() {
-    let t = Tuple::new(1.0, -2.0, 3.0, -4.0);
+    let t = Tuple::new(vec![1.0, -2.0, 3.0, -4.0]);
 
     let result: Vec<f32> = vec![0.5, -1.0, 1.5, -2.0];
 
@@ -564,7 +571,7 @@ fn dividing_a_tuple_by_a_scalar() {
 
 #[test]
 fn dividing_a_vector_by_a_scalar() {
-    let v = Vector::new(1.0, -2.0, 3.0);
+    let v = Vector::new(vec![1.0, -2.0, 3.0]);
 
     let result: Vec<f32> = vec![0.5, -1.0, 1.5, 0.0];
 
@@ -573,11 +580,11 @@ fn dividing_a_vector_by_a_scalar() {
 
 #[test]
 fn computing_the_magnitude_of_a_vector() {
-    let v1 = Vector::new(1.0, 0.0, 0.0);
-    let v2 = Vector::new(0.0, 1.0, 0.0);
-    let v3 = Vector::new(0.0, 0.0, 1.0);
-    let v4 = Vector::new(1.0, 2.0, 3.0);
-    let v5 = Vector::new(-1.0, -2.0, -3.0);
+    let v1 = Vector::new(vec![1.0, 0.0, 0.0]);
+    let v2 = Vector::new(vec![0.0, 1.0, 0.0]);
+    let v3 = Vector::new(vec![0.0, 0.0, 1.0]);
+    let v4 = Vector::new(vec![1.0, 2.0, 3.0]);
+    let v5 = Vector::new(vec![-1.0, -2.0, -3.0]);
     let value: f32 = 14.0;
 
     assert_eq!(1.0, v1.magnitude());
@@ -589,8 +596,8 @@ fn computing_the_magnitude_of_a_vector() {
 
 #[test]
 fn normalizing_a_vector() {
-    let v1 = Vector::new(4.0, 0.0, 0.0);
-    let v2 = Vector::new(1.0, 2.0, 3.0);
+    let v1 = Vector::new(vec![4.0, 0.0, 0.0]);
+    let v2 = Vector::new(vec![1.0, 2.0, 3.0]);
 
     let value: f32 = 14.0;
     let m = value.sqrt();
@@ -604,7 +611,7 @@ fn normalizing_a_vector() {
 
 #[test]
 fn the_magnitude_of_a_normalized_vector() {
-    let v = Vector::new(1.0, 2.0, 3.0);
+    let v = Vector::new(vec![1.0, 2.0, 3.0]);
     let abs_diff = (1.0 - v.normalize().magnitude()).abs();
 
     assert_eq!(true, abs_diff < f32::EPSILON);
@@ -612,16 +619,16 @@ fn the_magnitude_of_a_normalized_vector() {
 
 #[test]
 fn the_dot_product_of_two_vectors() {
-    let v1 = Vector::new(1.0, 2.0, 3.0);
-    let v2 = Vector::new(2.0, 3.0, 4.0);
+    let v1 = Vector::new(vec![1.0, 2.0, 3.0]);
+    let v2 = Vector::new(vec![2.0, 3.0, 4.0]);
 
     assert_eq!(20.0, dot(&v1, &v2));
 }
 
 #[test]
 fn the_cross_product_of_two_vectors() {
-    let v1 = Vector::new(1.0, 2.0, 3.0);
-    let v2 = Vector::new(2.0, 3.0, 4.0);
+    let v1 = Vector::new(vec![1.0, 2.0, 3.0]);
+    let v2 = Vector::new(vec![2.0, 3.0, 4.0]);
 
     let result1 = vec![-1.0, 2.0, -1.0, 0.0];
     let result2 = vec![1.0, -2.0, 1.0, 0.0];

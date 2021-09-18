@@ -22,26 +22,24 @@ pub trait Value {
 }
 
 impl Tuple {
-    pub fn new(x: f32, y: f32, z: f32, w: f32) -> Self {
-        Tuple {
-            value: vec![x, y, z, w],
-        }
+    pub fn new(value: Vec<f32>) -> Self {
+        Tuple { value }
     }
 }
 
 impl Point {
-    pub fn new(x: f32, y: f32, z: f32) -> Self {
-        Point {
-            value: vec![x, y, z, 1.0],
-        }
+    pub fn new(value: Vec<f32>) -> Self {
+        let mut p = value.to_vec();
+        p.push(1.0);
+        Point { value: p }
     }
 }
 
 impl Vector {
-    pub fn new(x: f32, y: f32, z: f32) -> Self {
-        Vector {
-            value: vec![x, y, z, 0.0],
-        }
+    pub fn new(value: Vec<f32>) -> Self {
+        let mut v = value.to_vec();
+        v.push(0.0);
+        Vector { value: v }
     }
 
     pub fn magnitude(&self) -> f32 {
