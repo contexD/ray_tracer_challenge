@@ -17,6 +17,11 @@ pub struct Vector {
     value: Vec<f32>,
 }
 
+#[derive(Debug, Clone)]
+pub struct Color {
+    pub value: Vec<f32>,
+}
+
 pub trait Value {
     fn value(&self) -> &Vec<f32>;
 }
@@ -55,6 +60,12 @@ impl Vector {
     }
 }
 
+impl Color {
+    pub fn new(value: Vec<f32>) -> Self {
+        Color { value }
+    }
+}
+
 pub fn dot(v1: &Vector, v2: &Vector) -> f32 {
     v1.value()
         .iter()
@@ -87,6 +98,7 @@ pub fn cross(v1: &Vector, v2: &Vector) -> Vector {
    [ Tuple ];
    [ Point ];
    [ Vector ];
+   [ Color ];
 )]
 impl Value for tuple_type {
     fn value(&self) -> &Vec<f32> {
@@ -99,6 +111,7 @@ impl Value for tuple_type {
    [ Tuple ];
    [ Point ];
    [ Vector ];
+   [ Color ];
 )]
 impl PartialEq for tuple_type {
     fn eq(&self, other: &Self) -> bool {
@@ -130,6 +143,7 @@ impl Eq for Vector {}
     [ Vector ] [ Vector ] [ Vector ];
     [ Vector ] [ Point ] [ Point ];
     [ Vector ] [ Tuple ] [ Tuple ];
+    [ Color ] [ Color ] [ Color ];
    ][
     [ Lhs_nested ] [ Rhs_nested ] [ Output_nested ];
     [ Lhs_nested ] [ &Rhs_nested ] [ Output_nested ];
@@ -156,6 +170,7 @@ impl Add<Rhs> for Lhs {
    [ Point ] [ Point ] [ Vector ];
    [ Point ] [ Vector ] [ Point ];
    [ Vector ] [ Vector ] [ Vector ];
+   [ Color ] [ Color ] [ Color ];
    ]
    [
    [ Lhs_inner ] [ Rhs_inner ] [ Output_inner];
@@ -198,6 +213,7 @@ impl Neg for tuple_type {
    tuple_type;
    [ Tuple ];
    [ Vector ];
+   [ Color ];
 )]
 impl Mul<f32> for tuple_type {
     type Output = Self;
@@ -205,6 +221,21 @@ impl Mul<f32> for tuple_type {
     fn mul(self, rhs: f32) -> Self::Output {
         Self::Output {
             value: self.value.iter().map(|&x| x * rhs).collect(),
+        }
+    }
+}
+
+impl Mul<Color> for Color {
+    type Output = Self;
+
+    fn mul(self, rhs: Color) -> Self::Output {
+        Self::Output {
+            value: self
+                .value
+                .iter()
+                .zip(rhs.value.iter())
+                .map(|(x, y)| x * y)
+                .collect(),
         }
     }
 }

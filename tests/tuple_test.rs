@@ -1,4 +1,4 @@
-use ray_tracer_challenge::tuples::{cross, dot, Point, Tuple, Value, Vector};
+use ray_tracer_challenge::tuples::{cross, dot, Color, Point, Tuple, Value, Vector};
 
 #[test]
 fn it_creates_a_tuple() {
@@ -635,4 +635,51 @@ fn the_cross_product_of_two_vectors() {
 
     assert_eq!(&result1, cross(&v1, &v2).value());
     assert_eq!(&result2, cross(&v2, &v1).value());
+}
+
+#[test]
+fn colors_are_red_green_blue_tuples() {
+    let Color { value } = Color::new(vec![-0.5, 0.4, 1.7]);
+    assert_eq!(-0.5, value[0]);
+    assert_eq!(0.4, value[1]);
+    assert_eq!(1.7, value[2]);
+}
+
+#[test]
+fn adding_colors() {
+    let c1 = Color::new(vec![0.9, 0.6, 0.75]);
+    let c2 = Color::new(vec![0.7, 0.1, 0.25]);
+    let c3 = c1 + c2;
+
+    let r = Color::new(vec![1.6, 0.7, 1.0]);
+    assert_eq!(r, c3);
+}
+
+#[test]
+fn subtracting_colors() {
+    let c1 = Color::new(vec![0.9, 0.6, 0.75]);
+    let c2 = Color::new(vec![0.7, 0.1, 0.25]);
+    let c3 = c1 - c2;
+
+    let r = Color::new(vec![0.2, 0.5, 0.5]);
+    assert_eq!(r, c3);
+}
+
+#[test]
+fn multiplying_a_color_by_a_scalar() {
+    let c1 = Color::new(vec![0.2, 0.3, 0.4]);
+    let c2 = c1 * 2.0;
+
+    let r = Color::new(vec![0.4, 0.6, 0.8]);
+    assert_eq!(r, c2);
+}
+
+#[test]
+fn multiplying_two_colors() {
+    let c1 = Color::new(vec![1.0, 0.2, 0.4]);
+    let c2 = Color::new(vec![0.9, 1.0, 0.1]);
+    let c3 = c1 * c2;
+
+    let r = Color::new(vec![0.9, 0.5, 0.04]);
+    assert_eq!(r, c3);
 }
