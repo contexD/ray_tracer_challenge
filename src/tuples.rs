@@ -256,7 +256,7 @@ impl Div<f32> for tuple_type {
 }
 
 fn equal(x: &f32, y: &f32) -> bool {
-    if (x - y).abs() < f32::EPSILON {
+    if (x - y).abs() < f32::EPSILON * 10.0 {
         return true;
     }
     return false;

@@ -25,7 +25,7 @@ fn it_creates_a_vector() {
 fn it_compares_two_tuples_for_equality() {
     let p1 = Point::new(vec![1.0, 2.0, 3.0]);
     let p2 = Point::new(vec![1.00001, 2.0, 3.0]);
-    let p3 = Point::new(vec![1.0 - 1.0 * f32::EPSILON, 2.0, 3.0]);
+    let p3 = Point::new(vec![1.0 - 1.0 * 10.0 * f32::EPSILON, 2.0, 3.0]);
     let v1 = Vector::new(vec![1.0, 2.0, 3.0]);
     let v2 = Vector::new(vec![1.0, 2.0, 3.0]);
 
@@ -680,6 +680,6 @@ fn multiplying_two_colors() {
     let c2 = Color::new(vec![0.9, 1.0, 0.1]);
     let c3 = c1 * c2;
 
-    let r = Color::new(vec![0.9, 0.5, 0.04]);
+    let r = Color::new(vec![0.9, 0.2, 0.04]);
     assert_eq!(r, c3);
 }
